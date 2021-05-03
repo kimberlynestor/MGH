@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+set -e
+
+subj=$1
+block=$2
+slice=$3
+ba=$4
+
+nisslvolpath="/autofs/space/vault_006/exvivo/exvivo_data_collection/wet_lab_data/tnc_project/photomacro_nissl_4x/${subj}/edited/${subj}_${block}_slice${slice}"
+labelpath="/autofs/space/asterion_001/users/kn751/wet_lab_data_asterion/tnc_project_asterion/equi_volume_area/data_labels/${subj}/${subj}_${block}_slice${slice}_4x_final_${ba}"
+
+freeview ${nisslvolpath}_4x_final_${ba}.nii \
+  ${labelpath}_area_label.mgz:colormap=lut:lut=/autofs/space/asterion_001/users/kn751/wet_lab_data_asterion/tnc_project_asterion/equi_volume_area/data_labels/equi_area_granular_LUT.lut \
+  -w ${nisslvolpath}_${ba}_*.label \
+  ${labelpath}_right_lateral.label:color=green:splinecolor=red \
+  ${labelpath}_left_lateral.label:color=green:splinecolor=red
+

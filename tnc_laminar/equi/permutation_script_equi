@@ -1,0 +1,503 @@
+#!/usr/bin/env python
+
+import pandas as pd
+from scipy import stats
+import matplotlib.pyplot as plt
+import numpy as np
+import random as random
+import array
+import seaborn as sns
+import statsmodels.stats.multitest as ssm
+
+
+#import file and load numerical data
+equi_data = pd.read_csv("equi_area_ratio_avg.csv")
+#print equi_data[['BA20A_supra', 'BA20A_infra']]
+
+#strip zeros from list and save as a variable for use later
+def strip_zeros(BA):
+    non_zeros = []
+    for number in equi_data[BA]:
+        if number == 0:
+            continue
+        #print number
+        non_zeros.append(number)
+    return non_zeros
+
+#supra variables with zeros removed
+BA20A_supra_strip = strip_zeros('BA20A_supra')
+BA20B_supra_strip = strip_zeros('BA20B_supra')
+BA20_all_supra_strip = strip_zeros('BA20_all_supra')
+BA21_supra_strip = strip_zeros('BA21_supra')
+BA22_supra_strip = strip_zeros('BA22_supra')
+BA36_supra_strip = strip_zeros('BA36_supra')
+
+
+#print "BA20A_supra_strip = " + str(BA20A_supra_strip)
+#print "BA20B_supra_strip = " + str(BA20B_supra_strip)
+#print "BA20_all_supra_strip = " + str(BA20_all_supra_strip)
+#print "BA21_supra_strip = " + str(BA21_supra_strip)
+#print "BA22_supra_strip = " + str(BA22_supra_strip)
+#print "BA36_supra_strip = " + str(BA36_supra_strip)
+
+
+#infra variables with zeros removed
+BA20A_infra_strip = strip_zeros('BA20A_infra')
+BA20B_infra_strip = strip_zeros('BA20B_infra')
+BA20_all_infra_strip = strip_zeros('BA20_all_infra')
+BA21_infra_strip = strip_zeros('BA21_infra')
+BA22_infra_strip = strip_zeros('BA22_infra')
+BA36_infra_strip = strip_zeros('BA36_infra')
+#print "BA20A_infra_strip = " + str(BA20A_infra_strip)
+#print "BA20B_infra_strip = " + str(BA20B_infra_strip)
+#print "BA20_all_infra_strip = " + str(BA20_all_infra_strip)
+#print "BA21_infra_strip = " + str(BA21_infra_strip)
+#print "BA22_infra_strip = " + str(BA22_infra_strip)
+#print "BA36_infra_strip = " + str(BA36_infra_strip)
+
+
+#open text file to write stats data to
+equi_area_descrip_stats = open("equi_area_descrip_stats.csv", "w")   #overwrite any info in file
+
+#Data description
+print "Descriptive Statistics"
+equi_area_descrip_stats.write("Descriptive Statistics" + "\n")
+
+equi_area_descrip_stats = open("equi_area_descrip_stats.csv", "a")   #append everything else to the file
+
+#Count
+#BA20A_count = len(BA20A_supra_strip)
+#print "BA20A_count = " + str(BA20A_count)
+#equi_area_descrip_stats.write("BA20A_count = " + str(BA20A_count) + "\n")   # + "\n" for append to new line
+
+#BA20B_count = len(BA20B_supra_strip)
+#print "BA20B_count = " + str(BA20B_count)
+#equi_area_descrip_stats.write("BA20B_count = " + str(BA20B_count) + "\n")
+
+BA20_all_count = len(BA20_all_supra_strip)
+print "BA20_all_count = " + str(BA20_all_count)
+equi_area_descrip_stats.write("BA20_all_count = " + str(BA20_all_count) + "\n")
+
+BA21_count = len(BA21_supra_strip)
+print "BA21_count = " + str(BA21_count)
+equi_area_descrip_stats.write("BA21_count = " + str(BA21_count) + "\n")
+
+BA22_count = len(BA22_supra_strip)
+print "BA22_count = " + str(BA22_count)
+equi_area_descrip_stats.write("BA22_count = " + str(BA22_count) + "\n")
+
+BA36_count = len(BA36_supra_strip)
+print "BA36_count = " + str(BA36_count)
+equi_area_descrip_stats.write("BA36_count = " + str(BA36_count) + "\n")
+
+
+#Mean - single
+#supra
+#BA20A_supra_mean = np.mean(BA20A_supra_strip)
+#print "BA20A_supra_mean = " + str(BA20A_supra_mean)
+#equi_area_descrip_stats.write("BA20A_supra_mean = " + str(BA20A_supra_mean) + "\n")
+
+#BA20B_supra_mean = np.mean(BA20B_supra_strip)
+#print "BA20B_supra_mean = " + str(BA20B_supra_mean)
+#equi_area_descrip_stats.write("BA20B_supra_mean = " + str(BA20B_supra_mean) + "\n")
+
+BA20_all_supra_mean = np.mean(BA20_all_supra_strip)
+print "BA20_all_supra_mean = " + str(BA20_all_supra_mean)
+equi_area_descrip_stats.write("BA20_all_supra_mean = " + str(BA20_all_supra_mean) + "\n")
+
+BA21_supra_mean = np.mean(BA21_supra_strip)
+print "BA21_supra_mean = " + str(BA21_supra_mean)
+equi_area_descrip_stats.write("BA21_supra_mean = " + str(BA21_supra_mean) + "\n")
+
+BA22_supra_mean = np.mean(BA22_supra_strip)
+print "BA22_supra_mean = " + str(BA22_supra_mean)
+equi_area_descrip_stats.write("BA22_supra_mean = " + str(BA22_supra_mean) + "\n")
+
+BA36_supra_mean = np.mean(BA36_supra_strip)
+print "BA36_supra_mean = " + str(BA36_supra_mean)
+equi_area_descrip_stats.write("BA36_supra_mean = " + str(BA36_supra_mean) + "\n")
+
+
+#infra
+#BA20A_infra_mean = np.mean(BA20A_infra_strip)
+#print "BA20A_infra_mean = " + str(BA20A_infra_mean)
+#equi_area_descrip_stats.write("BA20A_infra_mean = " + str(BA20A_infra_mean) + "\n")
+
+#BA20B_infra_mean = np.mean(BA20B_infra_strip)
+#print "BA20B_infra_mean = " + str(BA20B_infra_mean)
+#equi_area_descrip_stats.write("BA20B_infra_mean = " + str(BA20B_infra_mean) + "\n")
+
+BA20_all_infra_mean = np.mean(BA20_all_infra_strip)
+print "BA20_all_infra_mean = " + str(BA20_all_infra_mean)
+equi_area_descrip_stats.write("BA20_all_infra_mean = " + str(BA20_all_infra_mean) + "\n")
+
+BA21_infra_mean = np.mean(BA21_infra_strip)
+print "BA21_infra_mean = " + str(BA21_infra_mean)
+equi_area_descrip_stats.write("BA21_infra_mean = " + str(BA21_infra_mean) + "\n")
+
+BA22_infra_mean = np.mean(BA22_infra_strip)
+print "BA22_infra_mean = " + str(BA22_infra_mean)
+equi_area_descrip_stats.write("BA22_infra_mean = " + str(BA22_infra_mean) + "\n")
+
+BA36_infra_mean = np.mean(BA36_infra_strip)
+print "BA36_infra_mean = " + str(BA36_infra_mean)
+equi_area_descrip_stats.write("BA36_infra_mean = " + str(BA36_infra_mean) + "\n")
+
+
+#Standard deviation - single
+#supra
+#BA20A_supra_std = np.std(BA20A_supra_strip)
+#print "BA20A_supra_std = " + str(BA20A_supra_std)
+#equi_area_descrip_stats.write("BA20A_supra_std = " + str(BA20A_supra_std) + "\n")
+
+#BA20B_supra_std = np.std(BA20B_supra_strip)
+#print "BA20B_supra_std = " + str(BA20B_supra_std)
+#equi_area_descrip_stats.write("BA20B_supra_std = " + str(BA20B_supra_std) + "\n")
+
+BA20_all_supra_std = np.std(BA20_all_supra_strip)
+print "BA20_all_supra_std = " + str(BA20_all_supra_std)
+equi_area_descrip_stats.write("BA20_all_supra_std = " + str(BA20_all_supra_std) + "\n")
+
+BA21_supra_std = np.std(BA21_supra_strip)
+print "BA21_supra_std = " + str(BA21_supra_std)
+equi_area_descrip_stats.write("BA21_supra_std = " + str(BA21_supra_std) + "\n")
+
+BA22_supra_std = np.std(BA22_supra_strip)
+print "BA22_supra_std = " + str(BA22_supra_std)
+equi_area_descrip_stats.write("BA22_supra_std = " + str(BA22_supra_std) + "\n")
+
+BA36_supra_std = np.std(BA36_supra_strip)
+print "BA36_supra_std = " + str(BA36_supra_std)
+equi_area_descrip_stats.write("BA36_supra_std = " + str(BA36_supra_std) + "\n")
+
+
+#infra
+#BA20A_infra_std = np.std(BA20A_infra_strip)
+#print "BA20A_infra_std = " + str(BA20A_infra_std)
+#equi_area_descrip_stats.write("BA20A_infra_std = " + str(BA20A_infra_std) + "\n")
+
+#BA20B_infra_std = np.std(BA20B_infra_strip)
+#print "BA20B_infra_std = " + str(BA20B_infra_std)
+#equi_area_descrip_stats.write("BA20B_infra_std = " + str(BA20B_infra_std) + "\n")
+
+BA20_all_infra_std = np.std(BA20_all_infra_strip)
+print "BA20_all_infra_std = " + str(BA20_all_infra_std)
+equi_area_descrip_stats.write("BA20_all_infra_std = " + str(BA20_all_infra_std) + "\n")
+
+BA21_infra_std = np.std(BA21_infra_strip)
+print "BA21_infra_std = " + str(BA21_infra_std)
+equi_area_descrip_stats.write("BA21_infra_std = " + str(BA21_infra_std) + "\n")
+
+BA22_infra_std = np.std(BA22_infra_strip)
+print "BA22_infra_std = " + str(BA22_infra_std)
+equi_area_descrip_stats.write("BA22_infra_std = " + str(BA22_infra_std) + "\n")
+
+BA36_infra_std = np.std(BA36_infra_strip)
+print "BA36_infra_std = " + str(BA36_infra_std)
+equi_area_descrip_stats.write("BA36_infra_std = " + str(BA36_infra_std) + "\n")
+
+
+#Paired t-test
+#BA20A_paired_ttest = stats.ttest_rel(BA20A_supra_strip, BA20A_infra_strip)
+#print "BA20A_paired_ttest = " + str(BA20A_paired_ttest)
+#equi_area_descrip_stats.write("BA20A_paired_ttest = " + str(BA20A_paired_ttest) + "\n")
+
+#BA20B_paired_ttest = stats.ttest_rel(BA20B_supra_strip, BA20B_infra_strip)
+#print "BA20B_paired_ttest = " + str(BA20B_paired_ttest)
+#equi_area_descrip_stats.write("BA20B_paired_ttest = " + str(BA20B_paired_ttest) + "\n")
+
+BA20_all_paired_ttest = stats.ttest_rel(BA20_all_supra_strip, BA20_all_infra_strip)
+print "BA20_all_paired_ttest = " + str(BA20_all_paired_ttest)
+equi_area_descrip_stats.write("BA20_all_paired_ttest = " + str(BA20_all_paired_ttest) + "\n")
+
+BA21_paired_ttest = stats.ttest_rel(BA21_supra_strip, BA21_infra_strip)
+print "BA21_paired_ttest = " + str(BA21_paired_ttest)
+equi_area_descrip_stats.write("BA21_paired_ttest = " + str(BA21_paired_ttest) + "\n")
+
+BA22_paired_ttest = stats.ttest_rel(BA22_supra_strip, BA22_infra_strip)
+print "BA22_paired_ttest = " + str(BA22_paired_ttest)
+equi_area_descrip_stats.write("BA22_paired_ttest = " + str(BA22_paired_ttest) + "\n")
+
+BA36_paired_ttest = stats.ttest_rel(BA36_supra_strip, BA36_infra_strip)
+print "BA36_paired_ttest = " + str(BA36_paired_ttest)
+equi_area_descrip_stats.write("BA36_paired_ttest = " + str(BA36_paired_ttest) + "\n")
+
+
+#Permutation section
+#BA20A_ttrue_pvalue = BA20A_paired_ttest[1]
+#BA20B_ttrue_pvalue = BA20B_paired_ttest[1]
+BA20_all_ttrue_pvalue = BA20_all_paired_ttest[1]
+BA21_ttrue_pvalue = BA21_paired_ttest[1]
+BA22_ttrue_pvalue = BA22_paired_ttest[1]
+BA36_ttrue_pvalue = BA36_paired_ttest[1]
+#print "BA20A_ttrue_pvalue" + str(BA20A_ttrue_pvalue)
+
+#function to generate random -1 and 1 array
+def random_generated_signs(iterations):
+    generated_list = []
+    for number in range(iterations):
+        new_num = random.randrange(-1,2,2)
+        generated_list.append(new_num)
+    return generated_list
+
+#function does the permutation of the sign(+ /-) of the data 10k times
+def BA_10k_permutation(BA_supra_strip, BA_infra_strip):
+    permutation_list_10k = []
+    for i in range(10000):
+        BA_supra_strip_array = np.array(BA_supra_strip)
+        BA_count = len(BA_supra_strip_array)
+        BA_random_signs = np.array(random_generated_signs(BA_count))
+        #BA_supra_random_signs = np.array(random_generated_signs(BA_count))
+        BA_infra_strip_array = np.array(BA_infra_strip)
+        #BA_infra_random_signs = np.array(random_generated_signs(BA_count))
+        #BA_supra_perm = BA_supra_strip_array * BA_supra_random_signs
+        #BA_infra_perm = BA_infra_strip_array * BA_infra_random_signs
+        BA_supra_perm = BA_supra_strip_array * BA_random_signs
+        BA_infra_perm = BA_infra_strip_array * BA_random_signs
+        BA_perm_paired_ttest = stats.ttest_rel(BA_supra_perm, BA_infra_perm)
+        permutation_list_10k.append(BA_perm_paired_ttest[1])
+    return permutation_list_10k
+
+
+#BA permutation info
+#BA20A_10k_permutation = BA_10k_permutation(BA20A_supra_strip, BA20A_infra_strip)
+#BA20B_10k_permutation = BA_10k_permutation(BA20B_supra_strip, BA20B_infra_strip)
+BA20_all_10k_permutation = BA_10k_permutation(BA20_all_supra_strip, BA20_all_infra_strip)
+BA21_10k_permutation = BA_10k_permutation(BA21_supra_strip, BA21_infra_strip)
+BA22_10k_permutation = BA_10k_permutation(BA22_supra_strip, BA22_infra_strip)
+BA36_10k_permutation = BA_10k_permutation(BA36_supra_strip, BA36_infra_strip)
+#print BA20A_10k_permutation
+#print BA20B_10k_permutation
+#print BA21_10k_permutation
+#print BA22_10k_permutation
+#print BA36_10k_permutation
+
+
+#% of pvalues that are less than ptrue
+def perm_percent_less_ptrue(BA_10k_permutation, BA_ttrue_pvalue):
+    BA_perm_less_ptrue = []
+    for number in BA_10k_permutation:
+        if number < BA_ttrue_pvalue:
+            BA_perm_less_ptrue.append(number)
+        BA_perm_less_ptrue_count = len(BA_perm_less_ptrue)
+        BA_10k_permutation_count = len(BA_10k_permutation)
+        BA_perm_percent_less_ptrue = float(BA_perm_less_ptrue_count)/BA_10k_permutation_count #* 100
+    return BA_perm_percent_less_ptrue
+
+
+#BA20A_tperm_pvalue = perm_percent_less_ptrue(BA20A_10k_permutation, BA20A_ttrue_pvalue)
+#BA20B_tperm_pvalue = perm_percent_less_ptrue(BA20B_10k_permutation, BA20B_ttrue_pvalue)
+BA20_all_tperm_pvalue = perm_percent_less_ptrue(BA20_all_10k_permutation, BA20_all_ttrue_pvalue)
+BA21_tperm_pvalue = perm_percent_less_ptrue(BA21_10k_permutation, BA21_ttrue_pvalue)
+BA22_tperm_pvalue = perm_percent_less_ptrue(BA22_10k_permutation, BA22_ttrue_pvalue)
+BA36_tperm_pvalue = perm_percent_less_ptrue(BA36_10k_permutation, BA36_ttrue_pvalue)
+#print "BA20A_tperm_pvalue = " + str(BA20A_tperm_pvalue)
+#print "BA20B_tperm_pvalue = " + str(BA20B_tperm_pvalue)
+print "BA20_all_tperm_pvalue = " + str(BA20_all_tperm_pvalue)
+print "BA21_tperm_pvalue = " + str(BA21_tperm_pvalue)
+print "BA22_tperm_pvalue = " + str(BA22_tperm_pvalue)
+print "BA36_tperm_pvalue = " + str(BA36_tperm_pvalue)
+#equi_area_descrip_stats.write("BA20A_tperm_pvalue = " + str(BA20A_tperm_pvalue) + "\n")
+#equi_area_descrip_stats.write("BA20B_tperm_pvalue = " + str(BA20B_tperm_pvalue) + "\n")
+equi_area_descrip_stats.write("BA20_all_tperm_pvalue = " + str(BA20_all_tperm_pvalue) + "\n")
+equi_area_descrip_stats.write("BA21_tperm_pvalue = " + str(BA21_tperm_pvalue) + "\n")
+equi_area_descrip_stats.write("BA22_tperm_pvalue = " + str(BA22_tperm_pvalue) + "\n")
+equi_area_descrip_stats.write("BA36_tperm_pvalue = " + str(BA36_tperm_pvalue) + "\n")
+
+
+#Bonferroni correction
+def bonferroni_correction(pvalue):
+    if pvalue < 0.05:
+        return pvalue * 5
+    else:
+        return "permuted pvalue not significant"
+
+
+#BA20A_tperm_pvalue_bon_corrected = bonferroni_correction(BA20A_tperm_pvalue)
+#BA20B_tperm_pvalue_bon_corrected = bonferroni_correction(BA20B_tperm_pvalue)
+BA20_all_tperm_pvalue_bon_corrected = bonferroni_correction(BA20_all_tperm_pvalue)
+BA21_tperm_pvalue_bon_corrected = bonferroni_correction(BA21_tperm_pvalue)
+BA22_tperm_pvalue_bon_corrected = bonferroni_correction(BA22_tperm_pvalue)
+BA36_tperm_pvalue_bon_corrected = bonferroni_correction(BA36_tperm_pvalue)
+#print "BA20A_tperm_pvalue_bon_corrected = " + str(BA20A_tperm_pvalue_bon_corrected)
+#print "BA20B_tperm_pvalue_bon_corrected = " + str(BA20B_tperm_pvalue_bon_corrected)
+print "BA20_all_tperm_pvalue_bon_corrected = " + str(BA20_all_tperm_pvalue_bon_corrected)
+print "BA21_tperm_pvalue_bon_corrected = " + str(BA21_tperm_pvalue_bon_corrected)
+print "BA22_tperm_pvalue_bon_corrected = " + str(BA22_tperm_pvalue_bon_corrected)
+print "BA36_tperm_pvalue_bon_corrected = " + str(BA36_tperm_pvalue_bon_corrected)
+#equi_area_descrip_stats.write("BA20A_tperm_pvalue_bon_corrected = " + str(BA20A_tperm_pvalue_bon_corrected) + "\n")
+#equi_area_descrip_stats.write("BA20B_tperm_pvalue_bon_corrected = " + str(BA20B_tperm_pvalue_bon_corrected) + "\n")
+equi_area_descrip_stats.write("BA20_all_tperm_pvalue_bon_corrected = " + str(BA20_all_tperm_pvalue_bon_corrected) + "\n")
+equi_area_descrip_stats.write("BA21_tperm_pvalue_bon_corrected = " + str(BA21_tperm_pvalue_bon_corrected) + "\n")
+equi_area_descrip_stats.write("BA22_tperm_pvalue_bon_corrected = " + str(BA22_tperm_pvalue_bon_corrected) + "\n")
+equi_area_descrip_stats.write("BA36_tperm_pvalue_bon_corrected = " + str(BA36_tperm_pvalue_bon_corrected) + "\n")
+
+
+#FDR correction
+tperm_list_pvalues = [BA20_all_tperm_pvalue, BA21_tperm_pvalue, BA22_tperm_pvalue, BA36_tperm_pvalue]
+#print "tperm_list_pvalues = ", tperm_list_pvalues
+
+tperm_pvals_fdr_correction = ssm.fdrcorrection(tperm_list_pvalues, alpha=0.05, method='indep', is_sorted=False)
+print "tperm_pvals_fdr_correction = ", tperm_pvals_fdr_correction
+equi_area_descrip_stats.write("tperm_pvals_fdr_correction = " + str(tperm_pvals_fdr_correction) + "\n")
+#print tperm_pvals_fdr_correction[1,0]
+
+tperm_fdr_corr_threshold = tperm_pvals_fdr_correction[1][0]
+
+
+#close stats file
+equi_area_descrip_stats.close()
+
+
+#Boxplots - ratio average
+#plt.style.use('fivethirtyeight')
+
+#plt.boxplot([BA20A_supra_strip, BA20A_infra_strip])
+#plt.title("BA20A Boxplot of the ratio between supra and infra", fontsize=12)
+#plt.xticks([1, 2], ['BA20A_supra', 'BA20A_infra'], fontsize=10)
+#plt.ylabel("No. of pixels")
+#plt.tight_layout()
+#plt.savefig('BA20A_ratio_avg_boxplot.png', dpi=300, fontsize=10)
+#plt.show()
+
+#plt.boxplot([BA20B_supra_strip, BA20B_infra_strip])
+#plt.title("BA20B Boxplot of the ratio between supra and infra", fontsize=12)
+#plt.xticks([1, 2], ['BA20B_supra', 'BA20B_infra'], fontsize=10)
+#plt.ylabel("No. of pixels")
+#plt.tight_layout()
+#plt.savefig('BA20B_ratio_avg_boxplot.png', dpi=300, fontsize=10)
+#plt.show()
+
+plt.boxplot([BA20_all_supra_strip, BA20_all_infra_strip])
+plt.title("BA20 Boxplot of the ratio between supra and infra", fontsize=12)
+plt.xticks([1, 2], ['BA20_all_supra', 'BA20_all_infra'], fontsize=10)
+plt.ylabel("No. of pixels")
+plt.tight_layout()
+plt.savefig('BA20_all_ratio_avg_boxplot.png', dpi=300)
+plt.show()
+
+plt.boxplot([BA21_supra_strip, BA21_infra_strip])
+plt.title("BA21 Boxplot of the ratio between supra and infra", fontsize=12)
+plt.xticks([1, 2], ['BA21_supra', 'BA21_infra'], fontsize=10)
+plt.ylabel("No. of pixels")
+plt.tight_layout()
+plt.savefig('BA21_ratio_avg_boxplot.png', dpi=300)
+plt.show()
+
+plt.boxplot([BA22_supra_strip, BA22_infra_strip])
+plt.title("BA22 Boxplot of the ratio between supra and infra", fontsize=12)
+plt.xticks([1, 2], ['BA22_supra', 'BA22_infra'], fontsize=10)
+plt.ylabel("No. of pixels")
+plt.tight_layout()
+plt.savefig('BA22_ratio_avg_boxplot.png', dpi=300)
+plt.show()
+
+plt.boxplot([BA36_supra_strip, BA36_infra_strip])
+plt.title("BA36 Boxplot of the ratio between supra and infra", fontsize=12)
+plt.xticks([1, 2], ['BA36_supra', 'BA36_infra'], fontsize=10)
+plt.ylabel("No. of pixels")
+plt.tight_layout()
+plt.savefig('BA36_ratio_avg_boxplot.png', dpi=300)
+plt.show()
+
+#plt.boxplot([BA20A_supra_strip, BA20A_infra_strip, BA20B_supra_strip, BA20B_infra_strip, BA21_supra_strip, BA21_infra_strip, BA22_supra_strip, BA22_infra_strip, BA36_supra_strip, BA36_infra_strip])
+#plt.title("Boxplots of the ratio between supra and infra of all Brodmann Areas in the TNC", fontsize=10)
+#plt.xticks([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], ['BA20A supra', 'BA20A infra', 'BA20B supra', 'BA20B infra', 'BA21 supra', 'BA21 infra', 'BA22 supra', 'BA22 infra', 'BA36 supra', 'BA36 infra'], rotation=60)
+#plt.ylabel("No. of pixels")
+#plt.tight_layout()
+#plt.savefig('BA_all_ratio_avg_boxplot.png', dpi=300)
+#plt.show()
+
+plt.boxplot([BA20_all_supra_strip, BA20_all_infra_strip, BA21_supra_strip, BA21_infra_strip, BA22_supra_strip, BA22_infra_strip, BA36_supra_strip, BA36_infra_strip])
+plt.title("Boxplots of the ratio between supra and infra of all Brodmann Areas in the TNC", fontsize=10)
+plt.xticks([1, 2, 3, 4, 5, 6, 7, 8], ['BA20 supra', 'BA20 infra', 'BA21 supra', 'BA21 infra', 'BA22 supra', 'BA22 infra', 'BA36 supra', 'BA36 infra'], rotation=60)
+plt.ylabel("No. of pixels")
+plt.tight_layout()
+plt.savefig('BA_all_ratio_avg_boxplot.png', dpi=300)
+plt.show()
+
+#histograms of the 10k permuted pvalues
+
+#plt.hist(BA20A_10k_permutation, bins=25, edgecolor='black')
+#BA20A_ttrue_pvalue_round = round(BA20A_ttrue_pvalue, 4)
+#BA20A_tperm_pvalue_round = round(BA20A_tperm_pvalue, 4)
+#plt.title('Histogram showing the 10k pvalues of BA20A optained after permuting the data', fontsize=10)
+#plt.xlabel('Permutation pvalues')
+#plt.ylabel('No. of values')
+#plt.axvline(BA20A_ttrue_pvalue, color='r', linestyle='solid', linewidth=2, label="True p")
+#plt.text(BA20A_ttrue_pvalue,590, BA20A_ttrue_pvalue_round) #text showing the p value on the axvline
+#plt.axvspan(0,BA20A_ttrue_pvalue, color='m', alpha=0.375, label="Perm. p uncorrected") #line drawn at the p true value
+#plt.text(0, 525, BA20A_tperm_pvalue_round) #text showing the p value on the axvline
+#plt.legend(loc='lower right')
+#plt.savefig('BA20A_10k_perm_hist.png', dpi=300)
+#plt.show()
+
+#plt.hist(BA20B_10k_permutation, bins=25, edgecolor='black')
+#BA20B_ttrue_pvalue_round = round(BA20B_ttrue_pvalue, 4)
+#BA20B_tperm_pvalue_round = round(BA20B_tperm_pvalue, 4)
+#plt.title('Histogram showing the 10k pvalues of BA20B optained after permuting the data', fontsize=10)
+#plt.xlabel('Permutation pvalues')
+#plt.ylabel('No. of values')
+#plt.axvline(BA20B_ttrue_pvalue, color='r', linestyle='solid', linewidth=2, label="True p")
+#plt.text(BA20B_ttrue_pvalue,575, BA20B_ttrue_pvalue_round)
+#plt.axvspan(0,BA20B_ttrue_pvalue, color='purple', alpha=0.375, label="Perm. p uncorrected")
+#plt.text(0, 500, BA20B_tperm_pvalue_round)
+#plt.legend(loc='lower right')
+#plt.savefig('BA20B_10k_perm_hist.png', dpi=300)
+#plt.show()
+
+plt.hist(BA20_all_10k_permutation, bins=25, edgecolor='black')
+BA20_all_ttrue_pvalue_round = round(BA20_all_ttrue_pvalue, 4)
+BA20_all_tperm_pvalue_round = round(BA20_all_tperm_pvalue, 4)
+plt.title('Histogram showing the 10k pvalues of BA20 optained after permuting the data', fontsize=10)
+plt.xlabel('Permutation pvalues')
+plt.ylabel('No. of values')
+plt.axvline(BA20_all_ttrue_pvalue, color='r', linestyle='solid', linewidth=2, label="True p")
+plt.text(BA20_all_ttrue_pvalue,400, BA20_all_ttrue_pvalue_round)
+plt.axvspan(0,BA20_all_ttrue_pvalue, color='purple', alpha=0.375, label="Perm. p uncorrected")
+plt.text(0, 350, BA20_all_tperm_pvalue_round, rotation=90)
+plt.legend(loc='lower right')
+plt.savefig('BA20_all_10k_perm_hist.png', dpi=300)
+plt.show()
+
+plt.hist(BA21_10k_permutation, bins=25, edgecolor='black')
+BA21_ttrue_pvalue_round = round(BA21_ttrue_pvalue, 4)
+BA21_tperm_pvalue_round = round(BA21_tperm_pvalue, 4)
+plt.title('Histogram showing the 10k pvalues of BA21 optained after permuting the data', fontsize=10)
+plt.xlabel('Permutation pvalues')
+plt.ylabel('No. of values')
+plt.axvline(BA21_ttrue_pvalue, color='r', linestyle='solid', linewidth=2, label="True p")
+plt.text(BA21_ttrue_pvalue,450,BA21_ttrue_pvalue_round)
+plt.axvspan(0,BA21_ttrue_pvalue, color='purple', alpha=0.375, label="Perm. p uncorrected")
+plt.text(0, 400, BA21_tperm_pvalue_round, rotation=90)
+plt.legend(loc='lower right')
+plt.savefig('BA21_10k_perm_hist.png', dpi=300)
+plt.show()
+
+plt.hist(BA22_10k_permutation, bins=25, edgecolor='black')
+BA22_ttrue_pvalue_round = round(BA22_ttrue_pvalue, 4)
+BA22_tperm_pvalue_round = round(BA22_tperm_pvalue, 4)
+plt.title('Histogram showing the 10k pvalues of BA22 optained after permuting the data', fontsize=10)
+plt.xlabel('Permutation pvalues')
+plt.ylabel('No. of values')
+plt.axvline(BA22_ttrue_pvalue, color='r', linestyle='solid', linewidth=2, label="True p")
+plt.text(BA22_ttrue_pvalue,600,BA22_ttrue_pvalue_round)
+plt.axvspan(0,BA22_ttrue_pvalue, color='purple', alpha=0.375, label="Perm. p uncorrected")
+plt.text(0, 525, BA22_tperm_pvalue_round, rotation=90)
+plt.legend(loc='lower right')
+plt.savefig('BA22_10k_perm_hist.png', dpi=300)
+plt.show()
+
+plt.hist(BA36_10k_permutation, bins=25, edgecolor='black')
+BA36_ttrue_pvalue_round = round(BA36_ttrue_pvalue, 4)
+BA36_tperm_pvalue_round = round(BA36_tperm_pvalue, 4)
+plt.title('Histogram showing the 10k pvalues of BA36 optained after permuting the data', fontsize=10)
+plt.xlabel('Permutation pvalues')
+plt.ylabel('No. of values')
+plt.axvline(BA36_ttrue_pvalue, color='r', linestyle='solid', linewidth=2, label="True p")
+plt.text(BA36_ttrue_pvalue,675,BA36_ttrue_pvalue_round)
+plt.axvspan(0,BA36_ttrue_pvalue, color='purple', alpha=0.375, label="Perm. p uncorrected")
+plt.text(0, 575, BA36_tperm_pvalue_round, rotation=90)
+plt.legend(loc='lower right')
+plt.savefig('BA36_10k_perm_hist.png', dpi=300)
+plt.show()

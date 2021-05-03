@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+chmod +x create_data_file
+
+set -e
+
+subj=$1
+block=$2
+slice=$3
+ba=$4
+
+area_label_path="/autofs/space/asterion_001/users/kn751/wet_lab_data_asterion/tnc_project_asterion/equi_volume_area/data_labels/${subj}/${subj}_${block}_slice${slice}_4x_final_${ba}_area_label.mgz"
+
+data_file="/autofs/space/asterion_001/users/kn751/wet_lab_data_asterion/tnc_project_asterion/equi_volume_area/data_labels/${subj}/${subj}_${block}_slice${slice}_4x_final_${ba}_area_label_data_file"
+
+
+mri_segstats --seg $area_label_path --o $data_file
+
+
+

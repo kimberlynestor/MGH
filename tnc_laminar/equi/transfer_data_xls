@@ -1,0 +1,121 @@
+#!/usr/bin/env bash
+
+subj=$1
+block=$2
+slice=$3
+BA20A=$4
+BA20B=$5
+BA21=$6
+BA22=$7
+BA36=$8
+
+
+data_file_BA20A="/autofs/space/asterion_001/users/kn751/wet_lab_data_asterion/tnc_project_asterion/equi_volume_area/data_labels/${subj}/${subj}_${block}_slice${slice}_4x_final_BA20A_area_label_data_file"
+
+data_file_BA20B="/autofs/space/asterion_001/users/kn751/wet_lab_data_asterion/tnc_project_asterion/equi_volume_area/data_labels/${subj}/${subj}_${block}_slice${slice}_4x_final_BA20B_area_label_data_file"
+
+data_file_BA21="/autofs/space/asterion_001/users/kn751/wet_lab_data_asterion/tnc_project_asterion/equi_volume_area/data_labels/${subj}/${subj}_${block}_slice${slice}_4x_final_BA21_area_label_data_file"
+
+data_file_BA22="/autofs/space/asterion_001/users/kn751/wet_lab_data_asterion/tnc_project_asterion/equi_volume_area/data_labels/${subj}/${subj}_${block}_slice${slice}_4x_final_BA22_area_label_data_file"
+
+data_file_BA36="/autofs/space/asterion_001/users/kn751/wet_lab_data_asterion/tnc_project_asterion/equi_volume_area/data_labels/${subj}/${subj}_${block}_slice${slice}_4x_final_BA36_area_label_data_file"
+
+
+# search for row 2 column 3 - BA20A
+if [ -f "$data_file_BA20A" ] ; then
+  nvoxel2_BA20A="$(grep '^  2' $data_file_BA20A | awk '{print $3}')"
+  #echo $nvoxel2_BA20A
+elif [ ! -f "$data_file_BA20A" ] ; then
+  nvoxel2_BA20A=""
+  #echo $nvoxel2_BA20A
+fi
+
+if [ -f "$data_file_BA20A" ] ; then
+  nvoxel3_BA20A="$(grep '^  3' $data_file_BA20A | awk '{print $3}')"
+  #echo $nvoxel3_BA20A
+elif [ ! -f "$data_file_BA20A" ] ; then
+  nvoxel3_BA20A=""
+  #echo $nvoxel3_BA20A
+fi
+
+
+# search for row 2 column 3 - BA20B
+if [ -f "$data_file_BA20B" ] ; then
+  nvoxel2_BA20B="$(grep '^  2' $data_file_BA20B | awk '{print $3}')"
+  #echo $nvoxel2_BA20B
+elif [ ! -f "$data_file_BA20B" ] ; then
+  nvoxel2_BA20B=""
+  #echo $nvoxel2_BA20B
+fi
+
+if [ -f "$data_file_BA20B" ] ; then
+  nvoxel3_BA20B="$(grep '^  3' $data_file_BA20B | awk '{print $3}')"
+  #echo $nvoxel3_BA20B
+elif [ ! -f "$data_file_BA20B" ] ; then
+  nvoxel3_BA20B=""
+  #echo $nvoxel3_BA20B
+fi
+
+
+# search for row 2 column 3 - BA21
+if [ -f "$data_file_BA21" ] ; then
+  nvoxel2_BA21="$(grep '^  2' $data_file_BA21 | awk '{print $3}')"
+  #echo $nvoxel2_BA21
+elif [ ! -f "$data_file_BA21" ] ; then
+  nvoxel2_BA21=""
+  #echo $nvoxel2_BA21
+fi
+
+if [ -f "$data_file_BA21" ] ; then
+  nvoxel3_BA21="$(grep '^  3' $data_file_BA21 | awk '{print $3}')"
+  #echo $nvoxel3_BA21
+elif [ ! -f "$data_file_BA21" ] ; then
+  nvoxel3_BA21=""
+  #echo $nvoxel3_BA21
+fi
+
+
+# search for row 2 column 3 - BA22
+if [ -f "$data_file_BA22" ] ; then
+  nvoxel2_BA22="$(grep '^  2' $data_file_BA22 | awk '{print $3}')"
+  #echo $nvoxel2_BA22
+elif [ ! -f "$data_file_BA22" ] ; then
+  nvoxel2_BA22=""
+  #echo $nvoxel2_BA22
+fi
+
+if [ -f "$data_file_BA22" ] ; then
+  nvoxel3_BA22="$(grep '^  3' $data_file_BA22 | awk '{print $3}')"
+  #echo $nvoxel3_BA22
+elif [ ! -f "$data_file_BA22" ] ; then
+  nvoxel3_BA22=""
+  #echo $nvoxel3_BA22
+fi
+
+
+# search for row 2 column 3 - BA36
+if [ -f "$data_file_BA36" ] ; then
+  nvoxel2_BA36="$(grep '^  2' $data_file_BA36 | awk '{print $3}')"
+  #echo $nvoxel2_BA36
+elif [ ! -f "$data_file_BA36" ] ; then
+  nvoxel2_BA36=""
+  #echo $nvoxel2_BA36
+fi
+
+if [ -f "$data_file_BA36" ] ; then
+  nvoxel3_BA36="$(grep '^  3' $data_file_BA36 | awk '{print $3}')"
+  #echo $nvoxel3_BA36
+elif [ ! -f "$data_file_BA36" ] ; then
+  nvoxel3_BA36=""
+  #echo $nvoxel3_BA36
+fi
+
+#create data file to store case data
+#touch $subj_$block_"slice"$slice_"all_BA_data_file.csv"
+
+csv_data_sheet="/autofs/space/asterion_001/users/kn751/wet_lab_data_asterion/tnc_project_asterion/equi_volume_area/data_labels/equi_area_data_sheet.csv"
+
+#case_all_data_file="/autofs/space/asterion_001/users/kn751/wet_lab_data_asterion/tnc_project_asterion/equi_volume_area/data_labels/${subj}_${block}_slice${slice}_all_BA_data_file.csv"
+
+
+echo "${subj}_${block}_slice$slice,$nvoxel2_BA20A,$nvoxel3_BA20A,$nvoxel2_BA20B,$nvoxel3_BA20B,$nvoxel2_BA21,$nvoxel3_BA21,$nvoxel2_BA22,$nvoxel3_BA22,$nvoxel2_BA36,$nvoxel3_BA36" >> $csv_data_sheet
