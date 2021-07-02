@@ -22,7 +22,7 @@ outdir = '/autofs/cluster/exvivo3/I56_rh_32chexvivo_010320/mri/label/gif_imgs_di
 volume = 'flash20_rotated.mgz'
 label = 'I56layer_labels_rotated_SmartInterp_edit.mgz'
 
-"""
+
 # 'view_plane' : [[vol_start, vol_stop], cursor, coord] , cursor for first vol
 # indicate direction with reversed(), can change to centroid on label
 
@@ -185,8 +185,6 @@ for key, val in plane_slice_dict.items():
         make_gif_cmd_lst.append(make_gif_cmd) 
         make_gif_cmd_ol_lst.append(make_gif_cmd_ol) 
 
-
-"""
 
 
 #get all gif img names
