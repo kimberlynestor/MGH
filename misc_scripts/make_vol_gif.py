@@ -8,8 +8,8 @@ Description: This program makes a gif out of input volumes and labels.
 
 import os
 import sys
-
 import multiprocessing as mp
+import imageio
 
 
 # init parallel processing
@@ -22,7 +22,7 @@ outdir = '/autofs/cluster/exvivo3/I56_rh_32chexvivo_010320/mri/label/gif_imgs_di
 volume = 'flash20_rotated.mgz'
 label = 'I56layer_labels_rotated_SmartInterp_edit.mgz'
 
-
+"""
 # 'view_plane' : [[vol_start, vol_stop], cursor, coord] , cursor for first vol
 # indicate direction with reversed(), can change to centroid on label
 
@@ -68,7 +68,7 @@ for key, val in plane_slice_dict.items():
                 + ' 5 -viewport \'' + axis + '\' -slice ' + str(val[0]) + ' ' + \
                 str(val[1]) + ' ' + str(slice) + ' -zoom 1.65' 
             
-            #using bash imagemagick, can also use python's imageio
+            #using bash imagemagick
             take_img_cmd_ol_lst.append(take_img_cmd_ol) 
             print(take_img_cmd_ol, "\n")
             # os.system(take_img_cmd_ol)
@@ -186,15 +186,58 @@ for key, val in plane_slice_dict.items():
         make_gif_cmd_ol_lst.append(make_gif_cmd_ol) 
 
 
-#execute make gif commands
+"""
+
+
+#get all gif img names
+all_gif_img = sorted([i for i in os.listdir(outdir) if i.endswith('.png')])
+
+x_img = sorted([i for i in all_gif_img if i.startswith('x_img') \
+        and 'ol' not in i], reverse = True)
+y_img = sorted([i for i in all_gif_img if i.startswith('y_img') \
+        and 'ol' not in i])
+z_img = sorted([i for i in all_gif_img if i.startswith('z_img') \
+        and 'ol' not in i])
+
+x_img_ol = sorted([i for i in all_gif_img if i.startswith('x_img_ol')], \
+            reverse = True)
+y_img_ol = sorted([i for i in all_gif_img if i.startswith('y_img_ol')])
+z_img_ol = sorted([i for i in all_gif_img if i.startswith('z_img_ol')])
+
+#make dict
+group_dict = {'x': x_img, 
+              'y': y_img, 
+              'z': z_img,
+              'xol': x_img_ol,
+              'yol': y_img_ol,
+              'zol': z_img_ol}
+
+
+#execute make gif commands, using python imageio
+img_lst = []
+for key, val in group_dict.items():
+    
+    #make gif for key val group
+    print(f'Currently appending key {key} ...')
+    for img in val:
+        img_lst.append( imageio.imread( os.path.join(outdir, img) ) )
+    
+    save_name = 'axis_' + key + '.gif'
+    print(f'Currently saving {save_name} ...', "\n")
+    imageio.mimsave( os.path.join(outdir, save_name) , img_lst)
+    
+
+
+
+"""
+#execute make gif commands, using bash imagemagick
 for make_gif_cmd, make_gif_cmd_ol in zip(make_gif_cmd_lst, make_gif_cmd_ol_lst):
     print(make_gif_cmd)
     print(make_gif_cmd_ol)
     os.chdir(outdir)
     os.system(make_gif_cmd)
     os.system(make_gif_cmd_ol)
-
-
+"""
 
 """
 # rename files in 001, 002, 003 format instead of 1, 2, 3
