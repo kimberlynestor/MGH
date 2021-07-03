@@ -3,7 +3,9 @@ Name: Kimberly Nestor
 Date: 06/2021
 Description: This program makes a gif out of input volumes and labels. 
              Uses parallel processing, half total number of cores to account 
-             for computer freezing while using Freeview.
+             for computer freezing while using Freeview. The program than 
+             converts pngs to gifs. Ensure you are working on a computer with 
+             high memory e.g. sulc 1.47T.
 """
 
 import os
@@ -212,9 +214,8 @@ group_dict = {'x': x_img,
 
 
 #execute make gif commands, using python imageio
-img_lst = []
 for key, val in group_dict.items():
-    
+    img_lst = []
     #make gif for key val group
     print(f'Currently appending key {key} ...')
     for img in val:
