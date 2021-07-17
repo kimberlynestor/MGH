@@ -182,7 +182,8 @@ tissue_image = 'I42_block1_slice120_fundus_BA20B_21.tif'
 vf.save_thick_csv(path, LAB_LST, tissue_image, 'slice120_fundus_BA20B_21_strvec')
 """
 
-
+"""
+#BA20A_20A
 path = '/autofs/space/asterion_001/users/kn751/tnc_laminar_project/laminar_thickness/fundus/I40/'
 #slice 30, 35, 30
 LAB_LST = ['I40_block2_slice40_fundus_BA20A_20A_GWB_long.label', \
@@ -198,7 +199,6 @@ tissue_image = 'I40_block2_slice40_fundus_BA20A_20A.tif'
 vf.save_thick_csv(path, LAB_LST, tissue_image, 'I40_slice40_fundus_BA20A_20A_strvec')
 
 
-
 # full_list = [path+i for i in LAB_LST]
 # vec_coords = vf.vec_coords(vf.layer_coords(full_list), spacing=6)
 
@@ -209,3 +209,25 @@ vf.save_thick_csv(path, LAB_LST, tissue_image, 'I40_slice40_fundus_BA20A_20A_str
 # plt.gca().invert_yaxis()
 # plt.show()
 # # plt.close()
+"""
+
+
+#BA21_22, cases = I32(10,15,20), I33(75,80,85), I34(190,195,200)
+path = '/autofs/space/asterion_001/users/kn751/tnc_laminar_project/laminar_thickness/fundus/I34/'
+
+LAB_LST = ['I34_block2_slice190_fundus_BA21_22_GWB.label', \
+'I34_block2_slice190_fundus_BA21_22_GWB_long.label', \
+'I34_block2_slice190_fundus_BA21_22_LIII.label', \
+'I34_block2_slice190_fundus_BA21_22_LII.label', \
+'I34_block2_slice190_fundus_BA21_22_LI.label', \
+'I34_block2_slice190_fundus_BA21_22_LI_long.label', \
+'I34_block2_slice190_fundus_BA21_22_LIV.label', \
+'I34_block2_slice190_fundus_BA21_22_LVI.label', \
+'I34_block2_slice190_fundus_BA21_22_LV.label']
+
+
+tissue_image = 'I34_block2_slice190_BA21_22.tif'
+
+vf.save_thick_csv(path, LAB_LST, tissue_image, 'I34_slice190_fundus_BA21_22_strvec')
+
+
